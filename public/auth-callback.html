@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyGPT — Complete Sign In</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #1a0a2e;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      background: #2d1b4e;
+      border: 1px solid #4c2d7a;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    p { color: #c4b5fd; font-size: 0.9rem; margin-bottom: 20px; }
+    .input-group { margin-bottom: 14px; text-align: left; }
+    .input-group label { display: block; font-size: 0.82rem; color: #c4b5fd; margin-bottom: 6px; }
+    .input-group input {
+      width: 100%; padding: 12px 14px;
+      background: #3b2468; border: 1px solid #4c2d7a;
+      border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none;
+    }
+    .input-group input:focus { border-color: #7c3aed; }
+    .input-group input::placeholder { color: #7c6fa0; }
+    .btn {
+      width: 100%; padding: 12px;
+      background: #7c3aed; color: #fff; border: none;
+      border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; margin-top: 10px; transition: background 0.2s;
+    }
+    .btn:hover { background: #6d28d9; }
+    .btn:active { transform: scale(0.97); }
+    .error { color: #f87171; font-size: 0.82rem; margin-top: 8px; min-height: 1.2em; }
+    .provider-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: #3b2468; border: 1px solid #4c2d7a;
+      border-radius: 20px; font-size: 0.82rem; color: #a78bfa;
+      margin-bottom: 12px;
+    }
+    .back-link { color: #a78bfa; font-size: 0.82rem; text-decoration: none; margin-top: 16px; display: inline-block; }
+    .back-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Complete Sign In</h2>
+    <div class="provider-badge" id="providerBadge">Google</div>
+    <p>Enter your details to sign in with <span id="providerName">Google</span></p>
+    <form id="socialForm" onsubmit="completeSocialLogin(event)">
+      <div class="input-group">
+        <label for="socialName">Name</label>
+        <input type="text" id="socialName" placeholder="Your name" required />
+      </div>
+      <div class="input-group">
+        <label for="socialEmail">Email</label>
+        <input type="email" id="socialEmail" placeholder="you@example.com" required />
+      </div>
+      <button type="submit" class="btn">Continue</button>
+      <p class="error" id="socialError"></p>
+    </form>
+    <a href="/login" class="back-link">← Back to login</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const provider = params.get("provider") || "google";
+    const providerLabel = provider.charAt(0).toUpperCase() + provider.slice(1);
+
+    document.getElementById("providerBadge").textContent = providerLabel;
+    document.getElementById("providerName").textContent = providerLabel;
+
+    async function completeSocialLogin(e) {
+      e.preventDefault();
+      const name  = document.getElementById("socialName").value.trim();
+      const email = document.getElementById("socialEmail").value.trim();
+      const errorEl = document.getElementById("socialError");
+      errorEl.textContent = "";
+
+      if (!name) { errorEl.textContent = "Please enter your name"; return; }
+      if (!email) { errorEl.textContent = "Please enter your email"; return; }
+
+      try {
+        const res = await fetch("/api/auth/social", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ provider, name, email })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorEl.textContent = data.error || "Login failed";
+          return;
+        }
+
+        localStorage.setItem("mygpt_token", data.token);
+        localStorage.setItem("mygpt_user", JSON.stringify(data.user));
+        window.location.replace("/");
+
+      } catch (err) {
+        errorEl.textContent = "Connection error. Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>

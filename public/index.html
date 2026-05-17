@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyGPT</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- PDF.js — reads text content out of PDF files in the browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+  <!-- ── Floating gems background ── -->
+  <canvas id="gemsCanvas"></canvas>
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">✦ MyGPT</span>
+      <button id="newChatBtn" title="New chat">＋</button>
+    </div>
+    <div class="sidebar-history" id="historyList">
+      <!-- past chats loaded from database -->
+    </div>
+    <div class="sidebar-footer">
+      <span id="userName">User</span> 👤
+      <button id="logoutBtn" class="logout-btn" title="Sign out">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- ── Main chat area ── -->
+  <main class="chat-container">
+
+    <!-- Top bar -->
+    <header class="chat-header">
+      <span>MyGPT</span>
+      <span class="model-badge">llama-3.3-70b</span>
+    </header>
+
+    <!-- Messages -->
+    <div class="chat-inner">
+
+      <div class="messages" id="messages">
+        <div class="welcome" id="welcome">
+          <div class="welcome-logo">✦</div>
+          <h1>How can I help you today?</h1>
+          <p>Ask me anything — I'm MyGPT, your personal AI assistant.</p>
+        </div>
+      </div>
+
+      <!-- ── Input bar ── -->
+      <div class="input-area">
+
+        <div class="attachment-preview" id="attachmentPreview"></div>
+
+        <div class="input-box">
+
+          <div class="input-left">
+            <input
+              type="file"
+              id="fileInput"
+              multiple
+              accept="image/*,video/*,.pdf,.doc,.docx,.txt,.csv,.xls,.xlsx,.ppt,.pptx"
+              style="display:none"
+            />
+            <button class="icon-btn" id="attachBtn" title="Attach file or link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19
+                         a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+              </svg>
+            </button>
+
+            <div class="attach-menu" id="attachMenu">
+              <button class="attach-option" id="uploadFileBtn">
+                <span>📄</span> Upload File / Document
+              </button>
+              <button class="attach-option" id="uploadImageBtn">
+                <span>🖼️</span> Upload Image
+              </button>
+              <button class="attach-option" id="uploadVideoBtn">
+                <span>🎬</span> Upload Video
+              </button>
+              <button class="attach-option" id="addLinkBtn">
+                <span>🔗</span> Add Link / URL
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="userInput"
+            placeholder="Message MyGPT..."
+            rows="1"
+          ></textarea>
+
+          <button class="icon-btn send-btn" id="sendBtn" title="Send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <p class="disclaimer">MyGPT can make mistakes. Verify important info.</p>
+      </div>
+
+    </div>
+
+    <!-- Link modal -->
+    <div class="modal-overlay" id="linkModal">
+      <div class="modal">
+        <h3>Add a Link</h3>
+        <input type="url" id="linkInput" placeholder="https://example.com" />
+        <div class="modal-actions">
+          <button id="cancelLinkBtn">Cancel</button>
+          <button id="confirmLinkBtn" class="btn-primary">Add Link</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+  <script src="gems.js"></script>
+</body>
+</html>

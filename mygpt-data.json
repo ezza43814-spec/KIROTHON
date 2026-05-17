@@ -1,0 +1,90 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ezza Fatima",
+      "email": "ezza43814@gmail.com",
+      "password": null,
+      "provider": "google",
+      "created_at": "2026-05-17T08:54:20.061Z"
+    },
+    {
+      "id": 2,
+      "name": "Ezza Fatima",
+      "email": "ezza@gmail.com",
+      "password": "8bb52d7bb7f467c57d780296108a5d7275ea945ea4b6618a8fc1f3ceccef7eb9",
+      "provider": "email",
+      "created_at": "2026-05-17T08:56:13.070Z"
+    }
+  ],
+  "chats": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "title": "hi",
+      "created_at": "2026-05-17T08:54:28.453Z",
+      "updated_at": "2026-05-17T08:54:29.059Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "title": "hello",
+      "created_at": "2026-05-17T08:54:40.800Z",
+      "updated_at": "2026-05-17T08:54:41.034Z"
+    },
+    {
+      "id": 3,
+      "user_id": 2,
+      "title": "hi",
+      "created_at": "2026-05-17T08:56:30.094Z",
+      "updated_at": "2026-05-17T08:56:30.342Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "chat_id": 1,
+      "role": "user",
+      "content": "hi",
+      "created_at": "2026-05-17T08:54:28.459Z"
+    },
+    {
+      "id": 2,
+      "chat_id": 1,
+      "role": "assistant",
+      "content": "Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?",
+      "created_at": "2026-05-17T08:54:29.058Z"
+    },
+    {
+      "id": 3,
+      "chat_id": 2,
+      "role": "user",
+      "content": "hello",
+      "created_at": "2026-05-17T08:54:40.812Z"
+    },
+    {
+      "id": 4,
+      "chat_id": 2,
+      "role": "assistant",
+      "content": "Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?",
+      "created_at": "2026-05-17T08:54:41.034Z"
+    },
+    {
+      "id": 5,
+      "chat_id": 3,
+      "role": "user",
+      "content": "hi",
+      "created_at": "2026-05-17T08:56:30.106Z"
+    },
+    {
+      "id": 6,
+      "chat_id": 3,
+      "role": "assistant",
+      "content": "Hello. It's nice to meet you. Is there something I can help you with or would you like to chat?",
+      "created_at": "2026-05-17T08:56:30.342Z"
+    }
+  ],
+  "nextUserId": 3,
+  "nextChatId": 4,
+  "nextMsgId": 7
+}
